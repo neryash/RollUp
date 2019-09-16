@@ -32,12 +32,21 @@
 
         <TextView
             android:id="@+id/dad"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/face"
             android:text=""
             tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="392dp" />
+            tools:layout_editor_absoluteY="298dp" />
+
+        <TextView
+            android:id="@+id/dada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/face"
+            android:text=""
+            tools:layout_editor_absoluteX="517dp"
+            tools:layout_editor_absoluteY="8dp" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -124,6 +133,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout4"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="8dp"
@@ -208,6 +218,7 @@
                 android:text="-----"
                 android:textColor="@android:color/background_dark" />
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
