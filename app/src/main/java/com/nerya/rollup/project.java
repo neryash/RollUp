@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class project extends AppCompatActivity implements View.OnDragListener, View.OnLongClickListener {
-    TextView view, viewa;
+    TextView view, viewa, viewb;
     int idTooMove;
 
     @Override
@@ -31,14 +31,22 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
 
         view = findViewById(R.id.dad);
         viewa = findViewById(R.id.dada);
+        viewb = findViewById(R.id.dadb);
         idTooMove = 0;
 
-        view.setTranslationX(1000);
-
+        view.setTranslationX(10);
+        view.setTranslationY(5);
+        viewa.setTranslationX(200);
+        viewa.setTranslationY(5);
+        viewb.setTranslationX(395);
+        viewb.setTranslationY(5);
         view.setOnLongClickListener(this);
         viewa.setOnLongClickListener(this);
+        viewb.setOnLongClickListener(this);
         view.setOnDragListener(this);
         viewa.setOnDragListener(this);
+        viewb.setOnDragListener(this);
+
 
         //findViewById(R.id.target).setOnDragListener(this);
 
@@ -137,8 +145,13 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
                 //else
                     //Toast.makeText(this, "The drop didn't work.", Toast.LENGTH_SHORT).show();
                 //int id = v.getId();
-                        findViewById(idTooMove).setTranslationX(event.getX()-200);
-                        findViewById(idTooMove).setTranslationY(event.getY()-200);
+                try {
+                    findViewById(idTooMove).setTranslationX(event.getX()-100);
+                    findViewById(idTooMove).setTranslationY(event.getY()-200);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 // returns true; the value is ignored.
                 return true;
             // An unknown action type was received.
