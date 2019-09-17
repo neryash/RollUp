@@ -1,11 +1,14 @@
 package com.nerya.rollup;
 
 import androidx.annotation.IdRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -16,38 +19,254 @@ import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class project extends AppCompatActivity implements View.OnDragListener, View.OnLongClickListener {
-    TextView view, viewa, viewb;
-    int idTooMove;
+    TextView view, viewa, viewb, viewc, viewd, viewe, viewf, viewg, viewh, viewi, frameDisplay;
+    int idTooMove, numDancers, frame;
+    Button next, previous;
+    List allPos = new ArrayList<>();
+    List framePos = new ArrayList<>();
+    List pos = new ArrayList<>();
+    List posa = new ArrayList<>();
+    List posb = new ArrayList<>();
+    List posc = new ArrayList<>();
+    List posd = new ArrayList<>();
+    List pose = new ArrayList<>();
+    List posf = new ArrayList<>();
+    List posg = new ArrayList<>();
+    List posh = new ArrayList<>();
+    List posi = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
+        allPos.add(getIntent().getStringExtra("pName"));
+
+        frameDisplay = findViewById(R.id.frameDisplay);
+
+        frameDisplay.setText("frame 1");
+
+        frame = 1;
+
+        next = findViewById(R.id.next);
+        previous = findViewById(R.id.previous);
+
+        if(frame == 1){
+            previous.setText("Back To Settings");
+        }else {
+            previous.setText("back");
+        }
+
+//try {
+    numDancers = Integer.parseInt(getIntent().getStringExtra("numOfDancers"));
+//}catch (Exception e){
+ //   e.printStackTrace();
+//}
+
+
         view = findViewById(R.id.dad);
         viewa = findViewById(R.id.dada);
         viewb = findViewById(R.id.dadb);
+        viewc = findViewById(R.id.dadc);
+        viewd = findViewById(R.id.dadd);
+        viewe = findViewById(R.id.dade);
+        viewf = findViewById(R.id.dadf);
+        viewg = findViewById(R.id.dadg);
+        viewh = findViewById(R.id.dadh);
+        viewi = findViewById(R.id.dadi);
         idTooMove = 0;
 
-        view.setTranslationX(10);
-        view.setTranslationY(5);
-        viewa.setTranslationX(200);
-        viewa.setTranslationY(5);
-        viewb.setTranslationX(395);
-        viewb.setTranslationY(5);
+        setXY(view.getId(), 10, 5);
+
+        setXY(viewa.getId(), 200, 5);
+
+        setXY(viewb.getId(), 395, 5);
+
+        setXY(viewc.getId(), 590, 5);
+
+        setXY(viewd.getId(), 780, 5);
+
+        setXY(viewe.getId(), 970, 5);
+
+        setXY(viewf.getId(), 1160, 5);
+
+        setXY(viewg.getId(), 1350, 5);
+
+        setXY(viewh.getId(), 1540, 5);
+
+        setXY(viewi.getId(), 1730, 5);
+
         view.setOnLongClickListener(this);
         viewa.setOnLongClickListener(this);
         viewb.setOnLongClickListener(this);
+        viewc.setOnLongClickListener(this);
+        viewd.setOnLongClickListener(this);
+        viewe.setOnLongClickListener(this);
+        viewf.setOnLongClickListener(this);
+        viewg.setOnLongClickListener(this);
+        viewh.setOnLongClickListener(this);
+        viewi.setOnLongClickListener(this);
+
         view.setOnDragListener(this);
         viewa.setOnDragListener(this);
         viewb.setOnDragListener(this);
+        viewc.setOnDragListener(this);
+        viewd.setOnDragListener(this);
+        viewe.setOnDragListener(this);
+        viewf.setOnDragListener(this);
+        viewg.setOnDragListener(this);
+        viewh.setOnDragListener(this);
+        viewi.setOnDragListener(this);
+
+        switch (numDancers){
+            case 1:
+                viewa.setVisibility(View.INVISIBLE);
+                viewb.setVisibility(View.INVISIBLE);
+                viewc.setVisibility(View.INVISIBLE);
+                viewd.setVisibility(View.INVISIBLE);
+                viewe.setVisibility(View.INVISIBLE);
+                viewf.setVisibility(View.INVISIBLE);
+                viewg.setVisibility(View.INVISIBLE);
+                viewh.setVisibility(View.INVISIBLE);
+                viewi.setVisibility(View.INVISIBLE);
+                break;
+            case 2:
+                viewb.setVisibility(View.INVISIBLE);
+                viewc.setVisibility(View.INVISIBLE);
+                viewd.setVisibility(View.INVISIBLE);
+                viewe.setVisibility(View.INVISIBLE);
+                viewf.setVisibility(View.INVISIBLE);
+                viewg.setVisibility(View.INVISIBLE);
+                viewh.setVisibility(View.INVISIBLE);
+                viewi.setVisibility(View.INVISIBLE);
+                break;
+            case 3:
+                viewc.setVisibility(View.INVISIBLE);
+                viewd.setVisibility(View.INVISIBLE);
+                viewe.setVisibility(View.INVISIBLE);
+                viewf.setVisibility(View.INVISIBLE);
+                viewg.setVisibility(View.INVISIBLE);
+                viewh.setVisibility(View.INVISIBLE);
+                viewi.setVisibility(View.INVISIBLE);
+                break;
+            case 4:
+                viewd.setVisibility(View.INVISIBLE);
+                viewe.setVisibility(View.INVISIBLE);
+                viewf.setVisibility(View.INVISIBLE);
+                viewg.setVisibility(View.INVISIBLE);
+                viewh.setVisibility(View.INVISIBLE);
+                viewi.setVisibility(View.INVISIBLE);
+                break;
+            case 5:
+                viewe.setVisibility(View.INVISIBLE);
+                viewf.setVisibility(View.INVISIBLE);
+                viewg.setVisibility(View.INVISIBLE);
+                viewh.setVisibility(View.INVISIBLE);
+                viewi.setVisibility(View.INVISIBLE);
+                break;
+            case 6:
+                viewf.setVisibility(View.INVISIBLE);
+                viewg.setVisibility(View.INVISIBLE);
+                viewh.setVisibility(View.INVISIBLE);
+                viewi.setVisibility(View.INVISIBLE);
+                break;
+            case 7:
+                viewg.setVisibility(View.INVISIBLE);
+                viewh.setVisibility(View.INVISIBLE);
+                viewi.setVisibility(View.INVISIBLE);
+                break;
+            case 8:
+                viewh.setVisibility(View.INVISIBLE);
+                viewi.setVisibility(View.INVISIBLE);
+                break;
+            case 9:
+                viewi.setVisibility(View.INVISIBLE);
+                break;
+            case 10:
+                break;
+        }
+
+        findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                framePos.clear();
+                framePos.add(pos);
+                framePos.add(posa);
+                framePos.add(posb);
+                framePos.add(posc);
+                framePos.add(posd);
+                framePos.add(pose);
+                framePos.add(posf);
+                framePos.add(posg);
+                framePos.add(posh);
+                framePos.add(posi);
+                Log.i("arrTest", framePos.toString());
+                allPos.add(framePos.toString());
+                Log.i("arrTest", allPos.toString());
+                frame++;
+                frameDisplay.setText("frame " + frame);
+                if(frame == 1){
+                    previous.setText("Back To Settings");
+                }else {
+                    previous.setText("back");
+                }
+            }
+        });
+        findViewById(R.id.previous).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(frame == 1){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(project.this);
+
+                    builder.setTitle("Confirm");
+                    builder.setMessage("Are you sure you want to exit? Your project won't be saved");
+
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(project.this, ProjectSettings.class);
+                            startActivity(intent);
+
+                            dialog.dismiss();
+                        }
+                    });
+
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            // Do nothing
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
 
 
+                }else {
+                    frame--;
+                    frameDisplay.setText("frame " + frame);
+                    if(frame == 1){
+                        previous.setText("Back To Settings");
+                    }else {
+                        previous.setText("back");
+                    }
+                }
+            }
+        });
         //findViewById(R.id.target).setOnDragListener(this);
 
         //view.setTranslationX(getApplicationContext().getResources().getDisplayMetrics().widthPixels-100);
@@ -55,7 +274,7 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
 //        drag(view);
 //        draga(viewa);
 
-        Toast.makeText(project.this, getApplicationContext().getResources().getDisplayMetrics().heightPixels + "," + getApplicationContext().getResources().getDisplayMetrics().widthPixels, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(project.this, getApplicationContext().getResources().getDisplayMetrics().heightPixels + "," + getApplicationContext().getResources().getDisplayMetrics().widthPixels, Toast.LENGTH_SHORT).show();
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         try {
@@ -65,6 +284,18 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
         }
 
         //Toast.makeText(project.this, getIntent().getStringExtra("numOfDancers"), Toast.LENGTH_LONG).show();
+    }
+    public void setXY(int id, float x, float y){
+        findViewById(id).setTranslationX(x);
+        findViewById(id).setTranslationY(y);
+    }
+
+    @Override
+    public void onBackPressed() {
+            Intent startMain = new Intent(Intent.ACTION_MAIN);
+            startMain.addCategory(Intent.CATEGORY_HOME);
+            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(startMain);
     }
 
     @Override
@@ -148,6 +379,71 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
                 try {
                     findViewById(idTooMove).setTranslationX(event.getX()-100);
                     findViewById(idTooMove).setTranslationY(event.getY()-200);
+
+                    switch (idTooMove){
+                        case R.id.dad:
+                            pos.clear();
+                            pos.add(0, idTooMove);
+                            pos.add(1, event.getX()-100);
+                            pos.add(2, event.getY()-200);
+                            break;
+                        case R.id.dada:
+                            posa.clear();
+                            posa.add(0, idTooMove);
+                            posa.add(1, event.getX()-100);
+                            posa.add(2, event.getY()-200);
+                            break;
+                        case R.id.dadb:
+                            posb.clear();
+                            posb.add(0, idTooMove);
+                            posb.add(1, event.getX()-100);
+                            posb.add(2, event.getY()-200);
+                            break;
+                        case R.id.dadc:
+                            posc.clear();
+                            posc.add(0, idTooMove);
+                            posc.add(1, event.getX()-100);
+                            posc.add(2, event.getY()-200);
+                            break;
+                        case R.id.dadd:
+                            posd.clear();
+                            posd.add(0, idTooMove);
+                            posd.add(1, event.getX()-100);
+                            posd.add(2, event.getY()-200);
+                            break;
+                        case R.id.dade:
+                            pose.clear();
+                            pose.add(0, idTooMove);
+                            pose.add(1, event.getX()-100);
+                            pose.add(2, event.getY()-200);
+                            break;
+                        case R.id.dadf:
+                            posf.clear();
+                            posf.add(0, idTooMove);
+                            posf.add(1, event.getX()-100);
+                            posf.add(2, event.getY()-200);
+                            break;
+                        case R.id.dadg:
+                            posg.clear();
+                            posg.add(0, idTooMove);
+                            posg.add(1, event.getX()-100);
+                            posg.add(2, event.getY()-200);
+                            break;
+                        case R.id.dadh:
+                            posh.clear();
+                            posh.add(0, idTooMove);
+                            posh.add(1, event.getX()-100);
+                            posh.add(2, event.getY()-200);
+                            break;
+                        case R.id.dadi:
+                            posi.clear();
+                            posi.add(0, idTooMove);
+                            posi.add(1, event.getX()-100);
+                            posi.add(2, event.getY()-200);
+                            break;
+                    }
+
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }

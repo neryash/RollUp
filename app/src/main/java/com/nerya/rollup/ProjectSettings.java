@@ -7,16 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 public class ProjectSettings extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Spinner spinner;
     private static final String[] paths = {"1 person", "2 people", "3 people", "4 people", "5 people", "6 people", "7 people", "8 people", "9 people", "10 people"};
     private int num = 0;
+    private EditText pName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_settings);
+
+        pName = findViewById(R.id.pName);
 
         spinner = (Spinner)findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(ProjectSettings.this, android.R.layout.simple_spinner_item,paths);
@@ -29,6 +33,7 @@ public class ProjectSettings extends AppCompatActivity implements AdapterView.On
             @Override
             public void onClick(View v) {
                 Intent project = new Intent(ProjectSettings.this, project.class);
+                project.putExtra("pName",pName.getText().toString());
                 project.putExtra("numOfDancers", (num+1) + "");
                 startActivity(project);
 
