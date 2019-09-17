@@ -337,7 +337,7 @@
             app:layout_constraintEnd_toEndOf="@+id/linearLayout4" />
 
         <Button
-            android:id="@+id/next4"
+            android:id="@+id/finisha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="finish project"

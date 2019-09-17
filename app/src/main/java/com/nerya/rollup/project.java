@@ -24,13 +24,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class project extends AppCompatActivity implements View.OnDragListener, View.OnLongClickListener {
     TextView view, viewa, viewb, viewc, viewd, viewe, viewf, viewg, viewh, viewi, frameDisplay;
     int idTooMove, numDancers, frame;
-    Button next, previous;
+    Button next, previous, finish;
     List allPos = new ArrayList<>();
     List framePos = new ArrayList<>();
     List pos = new ArrayList<>();
@@ -45,6 +53,7 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
     List posi = new ArrayList<>();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +65,8 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
 
         frameDisplay.setText("frame 1");
 
+        finish = findViewById(R.id.finisha);
+
         frame = 1;
 
         next = findViewById(R.id.next);
@@ -66,6 +77,13 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
         }else {
             previous.setText("back");
         }
+
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                        writeFile();
+            }
+        });
 
 //try {
     numDancers = Integer.parseInt(getIntent().getStringExtra("numOfDancers"));
@@ -284,6 +302,93 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
         }
 
         //Toast.makeText(project.this, getIntent().getStringExtra("numOfDancers"), Toast.LENGTH_LONG).show();
+    }
+
+    public void writeFile() {
+        String textToSave = allPos.toString();
+
+        try {
+            FileOutputStream fileOutputStream = openFileOutput(getIntent().getStringExtra("pName") + ".txt", MODE_PRIVATE);
+            fileOutputStream.write(textToSave.getBytes());
+            fileOutputStream.close();
+
+            writeFiles();
+            Toast.makeText(getApplicationContext(), "Project Saved", Toast.LENGTH_SHORT).show();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void writeFiles() {
+
+
+        List fileNames = new ArrayList<>();
+//        try {
+//            FileInputStream fileInputStream = openFileInput("fileNames.txt");
+//            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+//
+//            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+//            StringBuffer stringBuffer = new StringBuffer();
+//
+//            String lines;
+//            while ((lines = bufferedReader.readLine()) != null) {
+//                stringBuffer.append(lines + "\n");
+//            }
+//
+//
+//            myList = new ArrayList<>(Arrays.asList(stringBuffer.toString().split(",")));
+//            myList.add(getIntent().getStringExtra("pName"));
+//
+//
+        try {
+            FileInputStream fileInputStream = openFileInput("fileNames.txt");
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            StringBuffer stringBuffer = new StringBuffer();
+
+            String lines;
+            while ((lines = bufferedReader.readLine()) != null) {
+                stringBuffer.append(lines + "\n");
+            }
+
+
+            fileNames.add(Arrays.asList(stringBuffer.toString().split(",")).toString() + "");
+
+            //displayText.setText(myList.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+            try {
+                fileNames.add(allPos.get(0).toString() + ",");
+                String textToSave = fileNames.toString();
+                FileOutputStream fileOutputStream = openFileOutput("fileNames.txt", MODE_PRIVATE);
+                fileOutputStream.write(textToSave.getBytes());
+                fileOutputStream.close();
+
+                Toast.makeText(getApplicationContext(), "File Saved", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(project.this, MainActivity.class);
+                startActivity(intent);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        //myList.add(getIntent().getStringExtra("pName"));
+
+
     }
     public void setXY(int id, float x, float y){
         findViewById(id).setTranslationX(x);

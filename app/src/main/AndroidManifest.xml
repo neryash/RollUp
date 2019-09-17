@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".project"
-            ></activity>
+        <activity android:name=".showFiles"></activity>
+        <activity android:name=".project" />
         <activity android:name=".ProjectSettings" />
         <activity android:name=".MainActivity">
             <intent-filter>

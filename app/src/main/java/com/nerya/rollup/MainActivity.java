@@ -13,6 +13,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        findViewById(R.id.existingProjectBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, showFiles.class);
+                startActivity(intent);
+            }
+        });
+
         findViewById(R.id.nexta).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
