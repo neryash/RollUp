@@ -24,6 +24,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,6 +65,8 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
         allPos.add(getIntent().getStringExtra("pName"));
 
         frameDisplay = findViewById(R.id.frameDisplay);
@@ -81,7 +89,7 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                        writeFile();
+                saveToServer();
             }
         });
 
@@ -304,92 +312,37 @@ public class project extends AppCompatActivity implements View.OnDragListener, V
         //Toast.makeText(project.this, getIntent().getStringExtra("numOfDancers"), Toast.LENGTH_LONG).show();
     }
 
-    public void writeFile() {
-        String textToSave = allPos.toString();
-
-        try {
-            FileOutputStream fileOutputStream = openFileOutput(getIntent().getStringExtra("pName") + ".txt", MODE_PRIVATE);
-            fileOutputStream.write(textToSave.getBytes());
-            fileOutputStream.close();
-
-            writeFiles();
-            Toast.makeText(getApplicationContext(), "Project Saved", Toast.LENGTH_SHORT).show();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public void writeFiles() {
-
-
-        List fileNames = new ArrayList<>();
-//        try {
-//            FileInputStream fileInputStream = openFileInput("fileNames.txt");
-//            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-//
-//            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-//            StringBuffer stringBuffer = new StringBuffer();
-//
-//            String lines;
-//            while ((lines = bufferedReader.readLine()) != null) {
-//                stringBuffer.append(lines + "\n");
-//            }
-//
-//
-//            myList = new ArrayList<>(Arrays.asList(stringBuffer.toString().split(",")));
-//            myList.add(getIntent().getStringExtra("pName"));
-//
-//
-        try {
-            FileInputStream fileInputStream = openFileInput("fileNames.txt");
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            StringBuffer stringBuffer = new StringBuffer();
-
-            String lines;
-            while ((lines = bufferedReader.readLine()) != null) {
-                stringBuffer.append(lines + "\n");
-            }
-
-
-            fileNames.add(Arrays.asList(stringBuffer.toString().split(",")).toString() + "");
-
-            //displayText.setText(myList.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-            try {
-                fileNames.add(allPos.get(0).toString() + ",");
-                String textToSave = fileNames.toString();
-                FileOutputStream fileOutputStream = openFileOutput("fileNames.txt", MODE_PRIVATE);
-                fileOutputStream.write(textToSave.getBytes());
-                fileOutputStream.close();
-
-                Toast.makeText(getApplicationContext(), "File Saved", Toast.LENGTH_SHORT).show();
+public void saveToServer(){
+    framePos.clear();
+    framePos.add(pos);
+    framePos.add(posa);
+    framePos.add(posb);
+    framePos.add(posc);
+    framePos.add(posd);
+    framePos.add(pose);
+    framePos.add(posf);
+    framePos.add(posg);
+    framePos.add(posh);
+    framePos.add(posi);
+    Log.i("arrTest", framePos.toString());
+    allPos.add(framePos.toString());
+    Log.i("arrTest", allPos.toString());
+    ParseObject server = new ParseObject("dances");
+    server.put("nameOfDance", allPos.get(0));
+    server.put("dance", allPos);
+    server.saveInBackground(new SaveCallback() {
+        @Override
+        public void done(ParseException e) {
+            if (e == null){
+                Toast.makeText(project.this, "Project Saved!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(project.this, MainActivity.class);
                 startActivity(intent);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            }else {
+                Toast.makeText(project.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-        //myList.add(getIntent().getStringExtra("pName"));
-
-
-    }
+        }
+    });
+}
     public void setXY(int id, float x, float y){
         findViewById(id).setTranslationX(x);
         findViewById(id).setTranslationY(y);

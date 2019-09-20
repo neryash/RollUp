@@ -9,6 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,6 +26,7 @@ import java.util.List;
 public class showFiles extends AppCompatActivity implements AdapterView.OnItemClickListener {
     TextView displayText;
     ListView listView;
+    ArrayList dances;
     List<String> myList;
     ArrayAdapter arrayAdapter;
 
@@ -30,70 +36,38 @@ public class showFiles extends AppCompatActivity implements AdapterView.OnItemCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_files);
 
-        //deleteFile("fileNames.txt");
+
+        dances = new ArrayList<>();
             displayText = findViewById(R.id.displayText);
             listView = findViewById(R.id.list);
-        myList = new ArrayList<>();
-            readFiles();
-            if(myList.size() == 0){
-                myList.add("you dont have no files");
-            }
+            findItems();
             arrayAdapter = new ArrayAdapter(
                     this,
                     android.R.layout.simple_list_item_1,
-                    myList);
+                    dances);
 
             listView.setAdapter(arrayAdapter);
             listView.setOnItemClickListener(this);
 
 
     }
-    public void readFiles() {
-        try {
-            FileInputStream fileInputStream = openFileInput("fileNames.txt");
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            StringBuffer stringBuffer = new StringBuffer();
-
-            String lines;
-            while ((lines = bufferedReader.readLine()) != null) {
-                stringBuffer.append(lines + "\n");
-            }
-
-
-            myList.add(Arrays.asList(stringBuffer.toString().split(",")).toString());
-
-            displayText.setText(myList.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public void readFile() {
-        try {
-            FileInputStream fileInputStream = openFileInput("Tutorial File.txt");
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            StringBuffer stringBuffer = new StringBuffer();
-
-            String lines;
-            while ((lines = bufferedReader.readLine()) != null) {
-                stringBuffer.append(lines + "\n");
-            }
-
-            displayText.setText(stringBuffer.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        displayText.setText(myList.get(position));
+        displayText.setText(dances.get(position).toString());
+    }
+    public void findItems(){
+        final ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("dances");
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(objects.size() > 0) {
+                    for (ParseObject item : objects) {
+                        dances.add(item.get("nameOfDance"));
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+
     }
 }
